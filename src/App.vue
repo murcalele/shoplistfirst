@@ -2,101 +2,107 @@
   <div id="app">
     <h1>Магазин у Ашота</h1>
     <h1>
-      Количество купленных товаров {{counterItems}}
+      Количество купленных товаров {{totalGoods}}
     </h1>
     <h1>
-      {{itemsPriceSum.name}} {{itemsPriceSum.default}} рублей
+      {{totalPrise}} рублей
     </h1>
-    <h2>
-      {{item1.name}} {{item1.price}} рублей
-    </h2>
-    <hello-world
-        :parent-counter-value="counterItems"
-        :items-price-sum="itemsPriceSum.default"
-        :item1-price="item1.price"
-        @addItem="counterItems +=1, itemsPriceSum.default +=item1.price"
-        @removeItem="counterItems-=1, itemsPriceSum.default -=item1.price"
-    />
-    <h2>
-      {{item2.name}} {{item2.price}} рублей
-    </h2>
-    <hello-world
-        :parent-counter-value="counterItems"
-        :items-price-sum="itemsPriceSum.default"
-        :item2-price="item2.price"
-        @addItem="counterItems +=1, itemsPriceSum.default +=item2.price"
-        @removeItem="counterItems-=1, itemsPriceSum.default -=item2.price"
-    />
-    <h2>
-      {{item3.name}} {{item3.price}} рублей
-    </h2>
-    <hello-world
-        :parent-counter-value="counterItems"
-        :items-price-sum="itemsPriceSum.default"
-        :item3-price="item3.price"
-        @addItem="counterItems +=1, itemsPriceSum.default +=item3.price"
-        @removeItem="counterItems-=1, itemsPriceSum.default -=item3.price"
-    />
-    <h2>
-      {{item4.name}} {{item4.price}} рублей
-    </h2>
-    <hello-world
-        :parent-counter-value="counterItems"
-        :items-price-sum="itemsPriceSum.default"
-        :item4-price="item4.price"
-        @addItem="counterItems +=1, itemsPriceSum.default +=item4.price"
-        @removeItem="counterItems-=1, itemsPriceSum.default -=item4.price"
-    />
-    <h2>
-      {{item5.name}} {{item5.price}} рублей
-    </h2>
-    <hello-world
-        :parent-counter-value="counterItems"
-        :items-price-sum="itemsPriceSum.default"
-        :item5-price="item5.price"
-        @addItem="counterItems +=1, itemsPriceSum.default +=item5.price"
-        @removeItem="counterItems-=1, itemsPriceSum.default -=item5.price"
-    />
+    <div class="goodsListContainer">
+      <div class="goodsList">
+        <good
+            v-for="good in goodsList"
+            :key="good.id"
+            :id="good.id"
+            :name="good.name"
+            :price="good.price"
+            :amount="good.amount"
+            :goodImage="good.image"
+            @addItem="addItem"
+            @removeItem="removeItem"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Good from './components/good.vue'
+import qweImage from '@/assets/1.jpeg'
+import carImage from '@/assets/car.jpeg'
+import watermelon from '@/assets/312288_11.jpeg'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Good
   },
   data(){
     return {
-      counterItems: 0,
+      defaultCounter: 1,
       itemsPriceSum: {
         name: "Общая стоимость товаров",
         default: 0,
       },
-      item1: {
-        name: "Беляш",
+      goodsList: [
+      {
+        id: '123o',
+        name: "Бляш",
+        amount: 0,
+        image: qweImage,
         price: 70,
-      },
-      item2: {
-        name: "Вино",
+      }, {
+        id: '123o1',
+        name: "Машина",
+        amount: 0,
+        image: carImage,
         price: 800,
-      },
-      item3: {
-        name: "Грузинский пирог",
+      }, {
+        id: '123o2',
+        name: "Грузинский арбус",
+        amount: 0,
+        image: watermelon,
         price: 120,
-      },
-      item4: {
-        name: "Хачапури",
-        price: 100,
-      },
-      item5: {
+      }, {
+        id: '123o3',
         name: "Осетинский пирог",
+        amount: 0,
         price: 190,
       },
+    ]
     };
   },
+  computed: {
+    totalGoods() {
+      let result = 0
+      for (let good of this.goodsList) {
+        result += good.amount
+      }
+      return result;
+    },
+    totalPrise() {
+      let result = 0
+      for (let good of this.goodsList) {
+        result += good.price * good.amount
+      }
+      return result;
+    }
+  },
+  methods: {
+    addItem(id) {
+      for (let good of this.goodsList) {
+        if (good.id === id){
+          good.amount += this.defaultCounter;
+        }
+      }
+    },
+    removeItem(id) {
+      for (let good of this.goodsList) {
+        if (good.id === id && good.amount > 0){
+          good.amount -= this.defaultCounter;
+        }
+      }
+    }
+  }
 }
 </script>
 
@@ -108,5 +114,20 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.goodsListContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.goodsList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 </style>
