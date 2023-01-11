@@ -1,7 +1,7 @@
 <template>
   <div class="good">
     <div>
-      Название товара - {{ name }}
+      Наименование товара - {{ name }}
     </div>
     <img
         class="image"
