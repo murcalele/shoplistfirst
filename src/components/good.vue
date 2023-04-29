@@ -1,5 +1,8 @@
 <template>
-  <div class="good">
+  <div class="good" @click="viewInfo">
+    <div>
+      {{this.$store.state.count}}
+    </div>
     <div>
       Наименование товара - {{ name }}
     </div>
@@ -12,12 +15,13 @@
       Цена товара - {{ price }}
     </div>
     <h3>
-      Количество купленного товара {{amount * price}}
+      Количество купленного товара {{amount}}
+      <br>Итоговая цена купленного товара {{amount * price}}
     </h3>
-    <button @click="onClickAdd">
+    <button @click.stop="onClickAdd">
       Добавить товар
     </button>
-    <button @click="onClickRemove">
+    <button @click.stop="onClickRemove">
       Убрать товар
     </button>
   </div>
@@ -44,6 +48,11 @@ export default {
       type: Number,
       required: true
     },
+    once: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     goodImage: {
       type: String,
       default: DefaultImage
@@ -55,6 +64,9 @@ export default {
     },
     onClickRemove() {
       this.$emit('removeItem', this.id);
+    },
+    viewInfo() {
+      this.$router.push(`itemInfo/${this.id}`);
     }
   }
 }
@@ -63,8 +75,8 @@ export default {
 <style scoped>
 .good {
   border-radius: 16px;
-  background-color: antiquewhite;
-  border: 1px solid darkgrey;
+  background-color: #FFE882;
+  border: 1px solid #388697;
   padding: 20px;
 }
 
