@@ -1,9 +1,11 @@
 <template>
   <div class="good" @click="viewInfo">
     <img class="image" :src="goodImage" alt="goodImage" />
-    <div>Наименование товара - {{ name }}</div>
-    <div>Цена товара - {{ price }}</div>
-    <p>Количество купленного товара {{ amount }}</p>
+    <div>
+      <div>Наименование товара - {{ name }}</div>
+      <div>Цена товара - {{ price }}</div>
+      <div>Количество купленного товара {{ amount }}</div>
+    </div>
     <div class="buttonsContainer">
       <div class="customButton" @click.stop="onClickAdd">
         <div class="customButtonText">Добавить товар</div>
@@ -25,7 +27,7 @@
 <script>
 import DefaultImage from "@/assets/default.jpeg";
 export default {
-  name: "DefaultGood",
+  name: "CheckoutGood",
   props: {
     id: {
       type: String,
@@ -47,10 +49,6 @@ export default {
       type: String,
       default: DefaultImage,
     },
-    needRedirect: {
-      type: Boolean,
-      default: true,
-    },
   },
   methods: {
     onClickAdd() {
@@ -62,7 +60,7 @@ export default {
       }
     },
     viewInfo() {
-      this.needRedirect && this.$router.push(`itemInfo/${this.id}`);
+      this.$router.push(`itemInfo/${this.id}`);
     },
   },
 };
@@ -70,34 +68,31 @@ export default {
 
 <style scoped>
 .good {
-  width: 330px;
-  height: 400px;
-  max-width: 330px;
-  max-height: 400px;
+  width: 100%;
+  height: 90px;
+  max-height: 80px;
   display: flex;
-  flex-direction: column;
-  border-radius: 20px;
-  background: rgba(97, 131, 162, 0.1);
-  padding: 24px;
+  padding: 16px;
   box-sizing: border-box;
+  border-bottom: 1px solid grey;
 }
 
 .image {
-  width: 200px;
-  height: 200px;
-  border-radius: 16px;
-  margin: 0 auto 12px auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  margin-right: 12px;
 }
 
 .buttonsContainer {
-  margin-top: 16px;
+  margin: auto 0 auto auto;
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
 .customButton {
-  width: 50%;
+  min-width: 80px;
   height: 36px;
   border-radius: 8px;
   display: flex;
@@ -105,6 +100,8 @@ export default {
   justify-content: center;
   background: #005bff;
   cursor: pointer;
+  padding: 6px 8px;
+  box-sizing: border-box;
 }
 .customButtonText {
   color: white;
